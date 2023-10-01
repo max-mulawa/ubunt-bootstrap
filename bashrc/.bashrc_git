@@ -1,0 +1,13 @@
+alias glog="git log --all --decorate --oneline --graph"
+alias gs="git status"
+alias gm="git checkout master"
+alias gmm="git checkout main"
+alias gp="git pull"
+alias gps="git push"
+alias gb="git checkout -b"
+alias gc="git commit -a -m"
+alias ga="git add ."
+alias gprev="git checkout -"
+alias gst="git stash"
+alias gpop="git stash pop"
+

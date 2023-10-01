@@ -1,0 +1,26 @@
+# kubectl aliases and variables # https://github.com/ahmetb/kubectl-aliases/blob/master/.kubectl_aliases
+export do="--dry-run=client -oyaml"
+export now="--grace-period=0 --force"
+
+alias k='kubectl'
+alias kns='kubectl config set-context --current --namespace'
+alias kctx="kubectl config get-contexts"
+
+alias k8s='terminator -m -b -l k8s'
+alias ka='kubectl apply -f'
+alias klo='kubectl logs -f'
+alias kg='kubectl get'
+alias kd='kubectl describe'
+alias krm='kubectl delete'
+alias kgp='kubectl get pods'
+alias kdpo='kubectl describe pods'
+alias kgs='kubectl get service'
+alias kgno='kubectl get nodes'
+alias kdno='kubectl describe nodes'
+alias kgns='kubectl get namespaces'
+alias kdns='kubectl describe namespaces'
+alias ke='kubectl exec'
+alias kr='kubectl run'
+
+source <(kubectl completion bash)
+complete -o default -F __start_kubectl k

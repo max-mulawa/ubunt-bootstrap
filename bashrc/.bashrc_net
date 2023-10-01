@@ -1,0 +1,4 @@
+function wsh() {
+  sudo echo "starting wireshark"
+  sudo wireshark 1>/dev/null 2>/dev/null  & disown
+}

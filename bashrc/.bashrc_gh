@@ -1,0 +1,104 @@
+# github helpers
+function gpr(){
+    existsMaster=$(git show-ref refs/heads/master)
+    if [ -n "$existsMaster" ]; then
+        gh pr create --base master --fill -d
+    fi
+
+    existsMain=$(git show-ref refs/heads/main)
+    if [ -n "$existsMain" ]; then
+        gh pr create --base main --fill -d
+    fi
+}
+
+function base-branch() {
+  existsMaster=$(git show-ref refs/heads/master)
+    if [ -n "$existsMaster" ]; then
+        eval "$1='master'"
+        return
+    fi
+
+  existsMain=$(git show-ref refs/heads/main)
+  if [ -n "$existsMain" ]; then
+        eval "$1='main'"
+        return
+  fi
+
+  eval ""
+}
+
+function bump(){
+   baseBranch=""
+   base-branch baseBranch
+   
+   git checkout $baseBranch
+   git pull
+
+   now=$(date +%Y%m%d_%H%M)
+   branch="chore/bump-repo-${now}"
+   echo $branch
+
+   git checkout -b $branch
+
+   go get github.com/org/repo@latest
+
+   git add go.mod
+   git add go.sum
+
+   git commit -m "bump repo"
+
+   gpr
+}
+
+function get-repos(){
+  gh repo list org  --private | awk '{print $1}' | egrep -v "(model|ml|ds-)" | xargs -I {} git clone https://github.com/{}
+  #ssh version
+  #gh repo list org  --private | awk '{print $1}' | egrep -v "(model|ml|ds-)" | xargs -I {} git clone git@github.com:{}.git
+}
+
+function pull-repos(){
+  cd $HOME/src
+  for d in */ ; do
+    echo  -e "\033[0;32m pulling ${d} \033[0m"
+
+    git -C $d stash
+
+    existsMaster=$(git -C $d show-ref refs/heads/master)
+    if [ -n "$existsMaster" ]; then
+        git -C $d checkout master
+    fi
+
+    existsMain=$(git -C $d show-ref refs/heads/main)
+    if [ -n "$existsMain" ]; then
+        git -C $d checkout main
+    fi
+
+    git -C $d pull
+    git -C $d checkout -
+
+    git -C $d stash pop
+  done
+  cd -
+}
+
+function main-branch(){
+  cd $HOME/src
+  for d in */ ; do
+    echo  -e "\033[0;32m checking out to main branch - ${d} \033[0m"
+
+    git -C $d stash
+
+    existsMaster=$(git -C $d show-ref refs/heads/master)
+    if [ -n "$existsMaster" ]; then
+        git -C $d checkout master
+    fi
+
+    existsMain=$(git -C $d show-ref refs/heads/main)
+    if [ -n "$existsMain" ]; then
+        git -C $d checkout main
+    fi
+    git -C $d stash pop
+  done
+  cd -
+}
+

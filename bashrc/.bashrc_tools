@@ -1,0 +1,84 @@
+
+# dev
+alias dev="code $HOME/src/my.code-workspace"
+
+function work() {
+  dev
+  chr
+}
+
+function newapp() {
+    #usage newapp html01
+    app=$1
+    echo $app
+    appdir=$HOME/src/experimental/$app
+    mkdir -p $appdir
+
+    cd $appdir
+    go mod init $app
+    rm -f main.go && printf 'package main\n\nimport "fmt"\n\nfunc main(){\n\tfmt.Println("Hello")\n}\n' > main.go
+    go build
+    go run main.go
+    code .
+}
+
+function newapp-test() {
+    #usage newapp 2015/01
+    app=$1
+    echo $app
+    wd=$(pwd)
+    
+    appdir=$wd/$app
+    mkdir -p $appdir
+
+    cd $appdir
+    go mod init $app
+    rm -f main.go && printf 'package main\n\nimport "fmt"\n\nfunc main(){\n\tfmt.Println("Hello")\n}\n' > main.go
+    rm -f main_test.go && printf 'package main\n\nimport("testing" \n "github.com/stretchr/testify/require" \n)  \nfunc Test(t *testing.T){\n\tfor _, tc := range []struct { \n\t desc string \n } {\n{\n desc:\"\", \n},\n } { \n\tt.Run(tc.desc, func(t *testing.T) { require.Equal(t, 1, 1) \n})\n}\n}\n' > main_test.go
+    go fmt
+    go get -u "github.com/stretchr/testify/require"/
+    go build
+    go run main.go
+    go test ./...
+    #code .
+}
+
+
+function newadv() {
+    #usage newadv 2015/01
+    app=$1
+    echo $app
+    wd=$(pwd)
+    
+    appdir=$wd/$app
+    mkdir -p $appdir
+
+    cd $appdir
+    go mod init $app
+    rm -f main.go && printf 'package main\n\nimport "fmt"\n\nfunc main(){\n\tfmt.Println("Hello")\n}\n' > main.go
+    rm -f main_test.go && printf 'package main\n\nimport("testing" \n "github.com/stretchr/testify/require" \n)  \nfunc Test(t *testing.T){\n\tfor _, tc := range []struct { \n\t desc string \n } {\n{\n desc:\"\", \n},\n } { \n\tt.Run(tc.desc, func(t *testing.T) { require.Equal(t, 1, 1) \n})\n}\n}\n' > main_test.go
+    go fmt
+    go get -u "github.com/stretchr/testify/require"/
+    go build
+    go run main.go
+    go test ./...
+    code .
+}
+
+# base 
+alias chr="google-chrome --profile-directory='Profile 1' 1>/dev/null 2>/dev/null  & disown"
+alias i="sudo apt install -y "
+alias o="xdg-open"
+
+# files
+alias r="ranger"
+alias search="grep -Ril" 
+
+# data
+
+# source:https://gist.github.com/angelo-v/e0208a18d455e2e6ea3c40ad637aac53
+
+function jwt-decode() {
+  # sample jwt-decode $JWT
+  sed 's/\./\n/g' <<< $(cut -d. -f1,2 <<< $1) | base64 --decode | jq
+}

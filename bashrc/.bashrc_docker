@@ -1,0 +1,9 @@
+function rm-docker(){
+  # remove stopped containers
+  docker ps -a | awk '{print $1}' | grep -v "CONT" | xargs docker rm -f
+}
+
+function pull-docker(){
+  # refresh local docker images from registry
+  docker images | awk '{print $1 ":" $2}' | grep '???' | grep -v none | xargs -I {} docker pull {}
+}
