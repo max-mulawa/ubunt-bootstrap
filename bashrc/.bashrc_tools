@@ -11,7 +11,7 @@ function newapp() {
     #usage newapp html01
     app=$1
     echo $app
-    appdir=$HOME/src/experimental/$app
+    appdir=$HOME/src/$app
     mkdir -p $appdir
 
     cd $appdir

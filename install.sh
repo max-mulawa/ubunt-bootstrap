@@ -181,6 +181,15 @@ if [ ! -f "/usr/local/bin/minikube" ]; then
     minikube completion bash | sudo tee -a /usr/share/bash-completion/completions/minikube > /dev/null
 fi 
 
+if [ ! -f "/usr/local/bin/k9s" ]; then 
+    export k9sVersion=$(curl -SsL https://api.github.com/repos/derailed/k9s/releases/latest | jq -r .tag_name)
+    wget https://github.com/derailed/k9s/releases/download/$k9sVersion/k9s_Linux_amd64.tar.gz
+    tar -zxvf k9s_Linux_amd64.tar.gz
+    sudo mv k9s /usr/local/bin/k9s
+    k9s completion bash | sudo tee -a /usr/share/bash-completion/completions/k9s > /dev/null
+    rm k9s_Linux_amd64.tar.gz
+fi 
+
 if [ ! -f "/usr/local/bin/htmlq" ]; then
     echo  -e "${GREEN}Installing htmlq${NC}"
 
@@ -190,6 +199,8 @@ if [ ! -f "/usr/local/bin/htmlq" ]; then
     tar xfz htmlq-x86_64-linux.tar.gz
     sudo mv htmlq /usr/local/bin/htmlq
 fi
+
+
 
 sudo snap install zoom-client
 
