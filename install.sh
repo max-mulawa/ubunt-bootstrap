@@ -200,6 +200,15 @@ if [ ! -f "/usr/local/bin/htmlq" ]; then
     sudo mv htmlq /usr/local/bin/htmlq
 fi
 
+if [ ! -f "/usr/local/go" ]; then
+     curl -L -o go.linux-amd64.tar.gz go.dev/dl/$(curl https://go.dev/dl/?mode=json \
+                     | jq -r '.[0].version').linux-amd64.tar.gz
+
+     sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.linux-amd64.tar.gz
+     echo "export PATH=\$PATH:/usr/local/go/bin:\$HOME/go/bin" >> ~/.bashrc
+     source ~/.bashrc
+     go version
+fi
 
 
 sudo snap install zoom-client

@@ -82,3 +82,18 @@ function jwt-decode() {
   # sample jwt-decode $JWT
   sed 's/\./\n/g' <<< $(cut -d. -f1,2 <<< $1) | base64 --decode | jq
 }
+
+function newtlpi() {
+  #usage newtlpi ch05 copy
+  pdir=$1
+  prog=$2
+  echo $pdir
+  appdir=$pdir/$prog
+  mkdir -p $appdir
+
+  cd $appdir
+  rm -f main.c && printf '#include <sys/stat.h>\n#include <fcntl.h>\n#include "../../lib/tlpi_hdr.h"\n\nint main(int argc, char* argv[])\n{\n\texit(EXIT_SUCCESS);\n}\n' > main.c
+  gcc main.c -o main
+  ./main
+  cd ../../
+}
