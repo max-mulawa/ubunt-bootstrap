@@ -18,8 +18,8 @@ fi
 echo "Updating package list and upgrading packages"
 sudo apt update && sudo apt upgrade -y #https://linuxhint.com/update_all_packages_ubuntu/
 
-echo  -e "Installing htop/curl/jq/vim"
-sudo apt install htop curl jq vim -y
+echo  -e "Installing htop/curl/jq/vim/tree"
+sudo apt install htop curl jq vim tree -y
 
 sudo snap install yq
 
@@ -34,6 +34,8 @@ if ! grep -qF "half-life" ~/.bashrc; then
   #cat ~/.bashrc | sed 's/OSH_THEME=[^;]*/OSH_THEME="half-life"/gI' >| ~/.bashrc && source ~/.bashrc
   #source ~/.bashrc
 fi
+
+rsync -a ./dotfiles/ $HOME
 
 # https://arslan.io/2019/07/03/how-to-write-idempotent-bash-scripts/
 if [ ! -f "/etc/apt/sources.list.d/vscode.list" ]; then
@@ -179,7 +181,15 @@ if [ ! -f "/usr/local/bin/minikube" ]; then
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube
     minikube completion bash | sudo tee -a /usr/share/bash-completion/completions/minikube > /dev/null
-fi 
+fi
+
+if [ ! -f "/usr/local/bin/kind" ]; then 
+    export kindVersion=$(curl -SsL https://api.github.com/repos/kubernetes-sigs/kind/releases/latest | jq -r .tag_name)  
+    wget https://github.com/kubernetes-sigs/kind/releases/download/$kindVersion/kind-linux-amd64
+    chmod +x ./kind-linux-amd64
+    sudo mv ./kind-linux-amd64 /usr/local/bin/kind
+    kind completion bash | sudo tee -a /usr/share/bash-completion/completions/kind > /dev/null
+fi
 
 if [ ! -f "/usr/local/bin/k9s" ]; then 
     export k9sVersion=$(curl -SsL https://api.github.com/repos/derailed/k9s/releases/latest | jq -r .tag_name)
