@@ -200,16 +200,6 @@ if [ ! -f "/usr/local/bin/k9s" ]; then
     rm k9s_Linux_amd64.tar.gz
 fi 
 
-if [ ! -f "/usr/local/bin/htmlq" ]; then
-    echo  -e "${GREEN}Installing htmlq${NC}"
-
-    export htmlqVersion=$(curl -SsL https://api.github.com/repos/mgdm/htmlq/releases/latest | jq -r .tag_name)
-
-    wget https://github.com/mgdm/htmlq/releases/download/$htmlqVersion/htmlq-x86_64-linux.tar.gz
-    tar xfz htmlq-x86_64-linux.tar.gz
-    sudo mv htmlq /usr/local/bin/htmlq
-fi
-
 if [ ! -f "/usr/local/go" ]; then
      curl -L -o go.linux-amd64.tar.gz go.dev/dl/$(curl https://go.dev/dl/?mode=json \
                      | jq -r '.[0].version').linux-amd64.tar.gz

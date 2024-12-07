@@ -8,9 +8,15 @@ created: 1667493670048
 
 # Create ISO 
 
-sudo dd bs=4M if=./ubuntu-22.04.1-live-server-amd64.iso of=/dev/sdb conv=fdatasync status=progress
-sudo dd bs=4M if=./ubuntu-22.04.1-desktop-amd64.iso of=/dev/sdb conv=fdatasync status=progress
+```shell
+wget https://releases.ubuntu.com/noble/ubuntu-24.04.1-desktop-amd64.iso
+wget https://releases.ubuntu.com/noble/SHA256SUMS
+wget https://releases.ubuntu.com/noble/SHA256SUMS.gpg
 
+sha256sum -c SHA256SUMS 2>&1 | grep OK
+
+sudo dd bs=4M if=./ubuntu-24.04.1-desktop-amd64.iso of=/dev/sdb conv=fdatasync status=progress
+```
 
 # make monitor dual display work
 
