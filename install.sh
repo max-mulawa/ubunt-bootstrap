@@ -98,17 +98,6 @@ echo  -e "Installing Terminator"
 mkdir $HOME/.config/terminator
 sudo apt install terminator -y && cp -f ./.config/terminator/config $HOME/.config/terminator/config
 
-if [ ! -d "/usr/local/go" ]; then
-    echo  -e "${GREEN}Installing go${NC}"
-
-    export goVersion=$(curl -s https://go.dev/dl/?mode=json | jq -r '.[0].version')
-    # https://go.dev/doc/install
-    wget https://go.dev/dl/$goVersion.linux-amd64.tar.gz
-    ## ???rm -rf /usr/local/go
-    sudo  tar -C /usr/local -xzf $goVersion.linux-amd64.tar.gz
-    echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' | tee -a ~/.bashrc > /dev/null
-    source ~/.bashrc
-fi 
 
 sudo snap install postman 
 sudo snap install slack 
