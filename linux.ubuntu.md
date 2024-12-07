@@ -79,4 +79,8 @@ prime-select nvidia
 
 ### change in BIOS
 - disable secure boot (some suggested, I already had this setting on)
-- force using NVIDIA graphics card, by selecting `discrete graphics card` this was a game changer here.
+- force using NVIDIA graphics card, by selecting `discrete graphics card` this was a game changer here or revert to `hybrid`.
+
+## Desiner Compact Keyboard 
+
+Hold for 5 seconds to start pairing `F1+fn` and then it should appear and connect with provided PIN
