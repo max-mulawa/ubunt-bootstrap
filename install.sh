@@ -18,8 +18,8 @@ fi
 echo "Updating package list and upgrading packages"
 sudo apt update && sudo apt upgrade -y #https://linuxhint.com/update_all_packages_ubuntu/
 
-echo  -e "Installing htop/curl/jq/vim/tree"
-sudo apt install htop curl jq vim tree -y
+echo  -e "Installing tooling I enjoy"
+sudo apt install htop curl jq vim tree direnv -y
 
 sudo snap install yq
 
@@ -203,6 +203,8 @@ if [ ! -f "/usr/local/go" ]; then
      go version
 fi
 
+# k8s logs watcher
+go install github.com/stern/stern@latest
 
 sudo snap install zoom-client
 
