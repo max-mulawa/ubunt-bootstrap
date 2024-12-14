@@ -102,6 +102,9 @@ sudo apt install terminator -y && cp -f ./.config/terminator/config $HOME/.confi
 sudo snap install postman 
 sudo snap install slack 
 
+# install networking capture tools
+sudo DEBIAN_FRONTEND=noninteractive apt install -y wireshark tshark
+
 if [ ! -f "/etc/apt/sources.list.d/docker.list" ]; then
     echo  -e "${GREEN}Installing docker and docker-compose${NC}"
     #docker install : https://docs.docker.com/engine/install/ubuntu/
